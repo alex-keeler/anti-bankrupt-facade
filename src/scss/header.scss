@@ -1,0 +1,29 @@
+.header {
+  height: 50px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  background-color: #222;
+  color: #f9f9f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+
+  &__date-selector {
+  }
+
+  &__user-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  &__user-info {
+    text-align: right;
+  }
+
+  &__logout {
+    cursor: pointer;
+  }
+}

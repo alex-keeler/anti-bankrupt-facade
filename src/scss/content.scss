@@ -1,0 +1,21 @@
+.content {
+  padding: 30px;
+
+  &__container {
+    position: absolute;
+    top: 50px;
+    overflow: auto;
+
+    &--desktop {
+      left: 250px;
+      height: calc(100% - 50px);
+      width: calc(100% - 250px);
+    }
+
+    &__mobile {
+      left: 0;
+      height: calc(100% - 110px);
+      width: 100%;
+    }
+  }
+}

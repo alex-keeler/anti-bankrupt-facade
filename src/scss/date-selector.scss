@@ -1,0 +1,39 @@
+.date-selector {
+  display: flex;
+  gap: 5px;
+
+  &__icon {
+    cursor: pointer;
+  }
+
+  &__container {
+    background-color: #ccc;
+    border: 1px solid #666;
+    border-radius: 10px;
+    padding: 10px;
+    position: absolute;
+    left: 5px;
+    top: 45px;
+
+    &:before {
+      content: ' ';
+      position: absolute;
+      width: 0;
+      height: 0;
+      left: 13px;
+      right: auto;
+      top: auto;
+      top: -16px;
+      border: 8px solid;
+      border-color: transparent transparent #ccc transparent;
+    }
+
+    &--shown {
+      display: block;
+    }
+
+    &--hidden {
+      display: none;
+    }
+  }
+}

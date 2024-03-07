@@ -2,22 +2,15 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import Header from "./blocks/Header.tsx";
-import MenuSidebar from "./blocks/MenuSidebar.tsx";
 import Content from "./blocks/Content.tsx";
-import MenuFooter from "./blocks/MenuFooter.tsx";
-import {BrowserView, MobileView} from "react-device-detect";
+import Menu from "./blocks/Menu.tsx";
 
 function App() {
     const [count, setCount] = useState(0)
 
     return (
         <>
-            <BrowserView>
-                <MenuSidebar/>
-            </BrowserView>
-            <MobileView>
-                <MenuFooter/>
-            </MobileView>
+            <Menu/>
             <Content>
                 <div>
                     <a href="https://vitejs.dev" target="_blank">

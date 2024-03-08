@@ -1,40 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import Header from "./blocks/Header.tsx";
-import Content from "./blocks/Content.tsx";
-import Menu from "./blocks/Menu.tsx";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home.tsx";
+import GeneralLayout from "./layouts/GeneralLayout.tsx";
+import UserDashboard from "./pages/UserDashboard.tsx";
+import TransactionDashboard from "./pages/TransactionDashboard.tsx";
+import BudgetDashboard from "./pages/BudgetDashboard.tsx";
+import CashFlowDashboard from "./pages/CashFlowDashboard.tsx";
+import BankRecordUpload from "./pages/BankRecordUpload.tsx";
+import Login from "./pages/Login.tsx";
 
 function App() {
-    const [count, setCount] = useState(0)
 
     return (
         <>
-            <Menu/>
-            <Content>
-                <div>
-                    <a href="https://vitejs.dev" target="_blank">
-                    <img src={viteLogo} className="logo" alt="Vite logo" />
-                    </a>
-                    <a href="https://react.dev" target="_blank">
-                    <img src={reactLogo} className="logo react" alt="React logo" />
-                    </a>
-                </div>
-                <h1>Vite + React</h1>
-                <div className="card">
-                    <button onClick={() => setCount((count) => count + 1)}>
-                        count is {count}
-                    </button>
-                    <p>
-                        Edit <code>src/App.tsx</code> and save to test HMR
-                    </p>
-                </div>
-                <p className="read-the-docs">
-                    Click on the Vite and React logos to learn more
-                </p>
-            </Content>
-            {/* TODO: figure out how to put header's date selector on top without having to move the header to the bottom like this */}
-            <Header/>
+            <Routes>
+                <Route path={"/"} element={<Home/>}/>
+                <Route path={"/secure"} element={<GeneralLayout/>}>
+                    <Route path={"user/dashboard"} element={<UserDashboard/>}/>
+                    <Route path={"budget/dashboard"} element={<BudgetDashboard/>}/>
+                    <Route path={"transaction/dashboard"} element={<TransactionDashboard/>}/>
+                    <Route path={"cash-flow/dashboard"} element={<CashFlowDashboard/>}/>
+                    <Route path={"bank-record/upload"} element={<BankRecordUpload/>}/>
+                </Route>
+                <Route path={"/login"} element={<Login/>}/>
+            </Routes>
         </>
     )
 }

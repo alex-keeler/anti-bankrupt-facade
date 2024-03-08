@@ -9,11 +9,11 @@ export default function Menu() {
         {
             icon: faGaugeHigh,
             name: "Dashboard",
-            href: "/secure/dashboard"
+            href: "/secure/user/dashboard"
         },{
             icon: faUpload,
             name: "Upload Bank Records",
-            href: "/secure/upload/bank-record"
+            href: "/secure/bank-record/upload"
         },{
             icon: faMoneyBills,
             name: "Cash Flow Dashboard",

@@ -2,7 +2,7 @@ import '../scss/content.scss';
 import {ReactNode} from "react";
 import {isMobile} from "react-device-detect";
 
-export default function Content(props: { children: ReactNode[] }) {
+export default function Content(props: { children: ReactNode|ReactNode[] }) {
 
     return (
         <div className={"content__container " + (isMobile ? "content__container--mobile" : "content__container--desktop")}>

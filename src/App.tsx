@@ -9,7 +9,6 @@ import BankRecordUpload from "./pages/BankRecordUpload.tsx";
 import Login from "./pages/Login.tsx";
 
 function App() {
-
     return (
         <>
             <Routes>
@@ -24,7 +23,7 @@ function App() {
                 <Route path={"/login"} element={<Login/>}/>
             </Routes>
         </>
-    )
+    );
 }
 
 export default App

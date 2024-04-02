@@ -7,6 +7,7 @@ import BudgetDashboard from "./pages/BudgetDashboard.tsx";
 import CashFlowDashboard from "./pages/CashFlowDashboard.tsx";
 import BankRecordUpload from "./pages/BankRecordUpload.tsx";
 import Login from "./pages/Login.tsx";
+import BasicLayout from "./layouts/BasicLayout.tsx";
 
 function App() {
     return (
@@ -20,7 +21,9 @@ function App() {
                     <Route path={"cash-flow/dashboard"} element={<CashFlowDashboard/>}/>
                     <Route path={"bank-record/upload"} element={<BankRecordUpload/>}/>
                 </Route>
-                <Route path={"/login"} element={<Login/>}/>
+                <Route element={<BasicLayout/>}>
+                    <Route path={"/login"} element={<Login/>}/>
+                </Route>
             </Routes>
         </>
     );

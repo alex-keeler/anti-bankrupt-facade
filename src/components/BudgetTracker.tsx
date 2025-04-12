@@ -33,16 +33,27 @@ export default function BudgetTracker(props: { budget_state: BudgetState }) {
 
 function BudgetAmount(props: { budget_state: BudgetState, toggle_transaction_details: MouseEventHandler<HTMLElement>, show_transaction_details: boolean }) {
 
-    const formatted_amount_spent = formatAmount(props.budget_state.amount_spent);
-    const formatted_threshold_amount = formatAmount(props.budget_state.amount_current);
-    const percentage = props.budget_state.amount_spent == 0 ? 0 :
-        Math.floor(props.budget_state.amount_spent / props.budget_state.amount_current * 100);
-
     return (
         <div className={"budget__spent"}>
-            {formatted_amount_spent} / {formatted_threshold_amount}
-            <span className={"budget__percentage"}>({percentage}%)</span>
-            {props.budget_state.amount_spent != 0 ? (<TransactionExpand onClick={props.toggle_transaction_details} expanded={props.show_transaction_details} />) : null}
+            { props.budget_state.amount_contributed != 0 && (
+                <div>
+                    {formatAmount(props.budget_state.amount_contributed)} / {formatAmount(props.budget_state.amount_current)} contributed
+                    <span className={"budget__percentage"}>({Math.floor(props.budget_state.amount_contributed / props.budget_state.amount_current * 100)}%)</span>
+                </div>
+            )}
+            { props.budget_state.amount_spent != 0 && (
+                <div>
+                    {formatAmount(props.budget_state.amount_spent)} / {formatAmount(props.budget_state.amount_current)} spent
+                    <span className={"budget__percentage"}>({Math.floor(props.budget_state.amount_spent / props.budget_state.amount_current * 100)}%)</span>
+                    {props.budget_state.amount_spent != 0 ? (<TransactionExpand onClick={props.toggle_transaction_details} expanded={props.show_transaction_details} />) : null}
+                </div>
+            )}
+            { props.budget_state.amount_spent == 0 && props.budget_state.amount_contributed == 0 && (
+                <div>
+                    $0.00 / {formatAmount(props.budget_state.amount_current)}
+                    <span className={"budget__percentage"}>(0%)</span>
+                </div>
+            )}
         </div>
     )
 }
@@ -170,7 +181,11 @@ function StatusBar(props: { budget_state: BudgetState }) {
 }
 
 function StatusBarSegment(props: { modifier: string, width_percentage: number }) {
+    
+    // adding 0.01% removes trailing space from the end of the bar
+    const modifiedPercentage = props.width_percentage > 0 ? props.width_percentage + 0.01 : 0;
+
     return (
-        <div className={"budget__bar-segment budget__bar-segment--" + props.modifier} style={{width: props.width_percentage + "%" }}></div>
+        <div className={"budget__bar-segment budget__bar-segment--" + props.modifier} style={{width: modifiedPercentage + "%" }}></div>
     )
 }

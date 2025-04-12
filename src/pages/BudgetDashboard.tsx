@@ -60,7 +60,7 @@ function ClassificationSelector(props: {classification: BudgetClassification, se
     return (
         <div className={"classification-select__container"}>
             <div className={"classification-select"}>
-                {[BudgetClassification.Wants, BudgetClassification.Needs, BudgetClassification.Savings]
+                {[BudgetClassification.Wants, BudgetClassification.Needs, BudgetClassification.Savings, BudgetClassification.Income]
                     .map(classification => {
                         return (
                             <div key={classification}

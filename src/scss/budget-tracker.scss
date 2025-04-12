@@ -21,7 +21,8 @@
   &__spent {
     font-size: 0.9em;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    gap: 5px;
 
     &--under {
       color: green;

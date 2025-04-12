@@ -3,7 +3,6 @@ import {useQuery} from "@tanstack/react-query";
 import {useNavigate} from "react-router-dom";
 import {BankAccount} from "../models/BankAccount.ts";
 import {FormEvent, useRef} from "react";
-import {BudgetTransactionMappingDetails} from "../models/BudgetTransactionMappingDetails.ts";
 
 export default function BankRecordUploadForm() {
 

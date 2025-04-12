@@ -1,35 +1,59 @@
 import '../scss/login-form.scss';
-import {useRef, useState} from "react";
-import {redirect} from "react-router-dom";
+import {FormEvent, useRef} from "react";
+import {useNavigate} from "react-router-dom";
+import {useSetBannerMessage} from "../layouts/LoginLayout.tsx";
+import {BannerMessage} from "../state/BannerMessage.ts";
 
 export default function LoginForm() {
 
+    const { setBannerMessage } = useSetBannerMessage();
+
     const username = useRef<HTMLInputElement>(null);
     const password = useRef<HTMLInputElement>(null);
-    const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
-    function login() {
+    const navigate = useNavigate();
 
-        alert('login');
-
-        if (!username.current || !password.current || !username.current!.value || !password.current!.value) {
-            alert('sad :(')
-            return false;
-        }
-
-        alert(import.meta.env.VITE_API_URL + '/api/login');
-        fetch(import.meta.env.VITE_API_URL + '/api/login')
-            .then(response => response.text())
-            .then(jwt => {
-                alert('testy test');
-                localStorage.setItem("Auth-Token", jwt);
-                setLoggedIn(true);
-            })
-            .catch(error => alert('error: ' + error));
+    if (username.current) {
+        username.current.value = "";
+    }
+    if (password.current) {
+        password.current.value = "";
     }
 
-    if (loggedIn) {
-        return redirect("/secure/user/dashboard");
+    function login(event: FormEvent<HTMLFormElement>) {
+
+        event.preventDefault();
+
+        if (!username.current || !password.current || !username.current.value || !password.current.value) {
+            return;
+        }
+
+        const formData = new FormData();
+
+        formData.set("username", username.current.value);
+        formData.set("password", password.current.value);
+
+        fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Invalid username / password combination");
+                }
+                return response.text();
+            })
+            .then(jwt => {
+                console.log('success: ', jwt);
+                localStorage.setItem("Auth-Token", jwt);
+                navigate("/secure/user/dashboard");
+            })
+            .catch(error => {
+                setBannerMessage({
+                    type: 'error',
+                    message: error.message
+                } as BannerMessage);
+            });
     }
 
     return (

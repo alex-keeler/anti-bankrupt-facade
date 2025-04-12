@@ -1,0 +1,88 @@
+.transaction {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+
+  &:first-child {
+    border-top: 1px solid #ccc;
+  }
+
+  &__list {
+    padding: 5px;
+  }
+
+  &__date {
+    flex: 0 0;
+  }
+
+  &__user-description {
+    font-weight: 700;
+    margin-bottom: 5px;
+    cursor: pointer;
+
+    &--link {
+      text-decoration: underline;
+      font-style: italic;
+      cursor: pointer;
+      color: #666;
+    }
+
+    &--input {
+      border: none;
+      border-bottom: 1px solid #999;
+      border-radius: 3px;
+      width: 90%;
+      font-weight: 700;
+    }
+  }
+
+  &__bank-description {
+    font-size: 0.95em;
+    color: #333;
+  }
+
+  &__comment {
+    font-size: 0.8em;
+    color: #777;
+    margin-top: 5px;
+    cursor: pointer;
+
+    &--link {
+      text-decoration: underline;
+      font-style: italic;
+      cursor: pointer;
+      color: #999;
+    }
+
+    &--input {
+      border: none;
+      border-bottom: 1px solid #ccc;
+      border-radius: 3px;
+      width: 90%;
+      font-size: 0.8em;
+      color: #777;
+    }
+  }
+
+  &__bank-account {
+    font-size: 0.8em;
+    color: #555;
+    text-align: right;
+  }
+
+  &__amount {
+    flex: 0 0 100px;
+    margin: 0 20px 0 10px;
+    text-align: right;
+
+    &--positive {
+      color: green;
+    }
+
+    &--negative {
+      color: red;
+    }
+  }
+}

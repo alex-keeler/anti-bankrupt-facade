@@ -1,0 +1,8 @@
+.form {
+  display: block;
+
+  & fieldset {
+    border: 0;
+    padding: 10px 0px;
+  }
+}

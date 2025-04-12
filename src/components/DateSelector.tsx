@@ -2,11 +2,13 @@ import '../scss/date-selector.scss';
 import {BrowserView, MobileView} from 'react-device-detect';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalendarAlt} from "@fortawesome/free-solid-svg-icons";
-import React from "react";
+import {Dispatch, SetStateAction, useRef, useState} from "react";
+import {DateSelection} from "../state/DateSelection.ts";
+import {useDateContext} from "../context/context.ts";
 
-export default function DateSelector() {
+export default function DateSelector(props: {setDate: Dispatch<SetStateAction<DateSelection>>}) {
 
-    const [expanded, setExpanded] = React.useState(false);
+    const [expanded, setExpanded] = useState<boolean>(false);
 
     function toggleExpanded() {
         console.log("toggling: ", expanded);
@@ -16,24 +18,45 @@ export default function DateSelector() {
     return (
         <>
             <BrowserView>
-                <Selector/>
+                <Selector setDate={props.setDate}/>
             </BrowserView>
             <MobileView>
                 <div className={"date-selector__icon"}>
                     <FontAwesomeIcon icon={faCalendarAlt} onClick={toggleExpanded}/>
                 </div>
                 <div className={"date-selector__container " + (expanded ? "date-selector__container--shown" : "date-selector__container--hidden")}>
-                    <Selector/>
+                    <Selector setDate={props.setDate}/>
                 </div>
             </MobileView>
         </>
     )
 }
 
-function Selector() {
+function Selector(props: {setDate: Dispatch<SetStateAction<DateSelection>>}) {
+
+    const year = useRef<HTMLSelectElement>(null);
+    const month = useRef<HTMLSelectElement>(null);
+
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+
+    const yearsLength = 5;
+    const currentYearIndex = 3;
+
+    function updateDateSelection() {
+        props.setDate({
+            year: parseInt(year!.current!.value),
+            month: parseInt(month!.current!.value),
+        });
+    }
+
+    const date = useDateContext();
+
+    const years = Array.from(new Array(yearsLength), (_, i) => i + currentYear - currentYearIndex);
+
     return (
         <div className={"date-selector"}>
-            <select className={"date-selector__month"}>
+            <select className={"date-selector__month"} ref={month} defaultValue={date.month}>
                 <option value={1}>January</option>
                 <option value={2}>February</option>
                 <option value={3}>March</option>
@@ -48,14 +71,12 @@ function Selector() {
                 <option value={12}>December</option>
             </select>
 
-            <select className={"date-selector__year"}>
-                <option value={2021}>2021</option>
-                <option value={2022}>2022</option>
-                <option value={2023}>2023</option>
-                <option value={2024}>2024</option>
-                <option value={2025}>2025</option>
+            <select className={"date-selector__year"} ref={year} defaultValue={date.year}>
+                {years.map(yearValue => {
+                    return (<option key={yearValue} value={yearValue}>{yearValue}</option>)
+                })}
             </select>
-            <button className={"date-selector__confirm"}>Confirm</button>
+            <button className={"date-selector__confirm"} onClick={updateDateSelection}>Confirm</button>
         </div>
     )
 }

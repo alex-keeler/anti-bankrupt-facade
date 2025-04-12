@@ -1,4 +1,7 @@
-type BudgetState = {
+import {BudgetClassification} from "./enum/BudgetClassification.ts";
+import {SpendingType} from "./enum/SpendingType.ts";
+
+export type BudgetState = {
     id: number,
     title: string,
     classification: BudgetClassification,

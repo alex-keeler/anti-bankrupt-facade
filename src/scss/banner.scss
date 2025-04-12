@@ -1,0 +1,20 @@
+.banner {
+  display: inline-block;
+  width: 100%;
+  color: white;
+  padding: 15px 30px;
+  font-weight: 700;
+  text-align: center;
+
+  &--error {
+    background-color: #fa5339;
+  }
+
+  &--warning {
+    background-color: #ff9f2a;
+  }
+
+  &--info {
+    background-color: #0059a3;
+  }
+}

@@ -1,29 +1,37 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChevronRight} from "@fortawesome/free-solid-svg-icons";
+import {faChevronDown, faChevronRight} from "@fortawesome/free-solid-svg-icons";
 import '../scss/budget-tracker.scss';
 import '../scss/well.scss';
-import { MouseEventHandler } from "react";
+import {MouseEventHandler, useState} from "react";
+import {BudgetState} from "../models/BudgetState.ts";
+import {useNavigate} from "react-router-dom";
+import {useQuery} from "@tanstack/react-query";
+import {TransactionDetails} from "../models/TransactionDetails.ts";
+import {useDateContext} from "../context/context.ts";
+import {formatAmount} from "../util/util.ts";
 
 export default function BudgetTracker(props: { budget_state: BudgetState }) {
 
+    const [showTransactionDetails, setShowTransactionDetails] = useState(false);
+
     function toggleTransactionDetails() {
-        console.log('click!');
+        setShowTransactionDetails(!showTransactionDetails);
     }
 
     return (
         <div className={"budget well"}>
             <div className={"budget__title"}>{props.budget_state.title}</div>
             <div className={"budget__details"}>
-                <BudgetAmount budget_state={props.budget_state} toggle_transaction_details={toggleTransactionDetails}/>
+                <BudgetAmount budget_state={props.budget_state} toggle_transaction_details={toggleTransactionDetails} show_transaction_details={showTransactionDetails}/>
                 <BudgetMetadata budget_state={props.budget_state}/>
             </div>
-            <TransactionDetailsList budget_id={props.budget_state.id}/>
+            {showTransactionDetails && <TransactionList budget_id={props.budget_state.id}/>}
             <StatusBar budget_state={props.budget_state}/>
         </div>
     )
 }
 
-function BudgetAmount(props: { budget_state: BudgetState, toggle_transaction_details: MouseEventHandler<HTMLElement> }) {
+function BudgetAmount(props: { budget_state: BudgetState, toggle_transaction_details: MouseEventHandler<HTMLElement>, show_transaction_details: boolean }) {
 
     const formatted_amount_spent = formatAmount(props.budget_state.amount_spent);
     const formatted_threshold_amount = formatAmount(props.budget_state.amount_current);
@@ -34,23 +42,66 @@ function BudgetAmount(props: { budget_state: BudgetState, toggle_transaction_det
         <div className={"budget__spent"}>
             {formatted_amount_spent} / {formatted_threshold_amount}
             <span className={"budget__percentage"}>({percentage}%)</span>
-            {props.budget_state.amount_spent != 0 ? (<TransactionDetailsExpand onClick={props.toggle_transaction_details}/>) : null}
+            {props.budget_state.amount_spent != 0 ? (<TransactionExpand onClick={props.toggle_transaction_details} expanded={props.show_transaction_details} />) : null}
         </div>
     )
 }
 
-function TransactionDetailsExpand(props: { onClick: MouseEventHandler<HTMLElement> }) {
+function TransactionExpand(props: { onClick: MouseEventHandler<HTMLElement>, expanded: boolean }) {
     return (
-        <span className={"transaction-details__dropdown"} onClick={props.onClick}><FontAwesomeIcon icon={faChevronRight}/></span>
+        <span className={"transaction-details__dropdown"} onClick={props.onClick}><FontAwesomeIcon icon={props.expanded ? faChevronDown : faChevronRight}/></span>
     );
 }
 
-function TransactionDetailsList(props: { budget_id: number }) {
+function TransactionList(props: { budget_id: number }) {
 
-    // TODO: transaction details list
+    const navigate = useNavigate();
+    const date = useDateContext();
+
+    const { isPending, error, data } = useQuery({
+        queryKey: ["transaction", "details", "top", "by-budget", props.budget_id, date.year, date.month],
+        queryFn: () =>
+            fetch(`${import.meta.env.VITE_API_URL}/api/secure/transaction/top/by-budget/${props.budget_id}?year=${date.year}&month=${date.month}&limit=10`, {
+                method: 'GET',
+                headers: {
+                    'Auth-Token': localStorage.getItem("Auth-Token")!
+                },
+            })
+                .then(response => {
+                    if (response.status === 401) {
+                        navigate("/logout");
+                    }
+
+                    return response.json();
+                })
+                .then(data => data as TransactionDetails[])
+    });
+
+    if (isPending) {
+        return (<>Loading...</>);
+    }
+
+    if (error) {
+        return (<>An error has occurred.</>);
+    }
 
     return (
-        <span className={"transaction-details__dropdown"}><FontAwesomeIcon icon={faChevronRight}/></span>
+        <div className={"transaction-details__list"}>
+            {data.map(transaction => {
+                return (<Transaction key={transaction.id} transaction={transaction}/>);
+            })}
+        </div>
+    );
+}
+
+function Transaction(props: { transaction: TransactionDetails }) {
+    return (
+        <div className={"transaction-details"}>
+            <span>{props.transaction.user_description ? props.transaction.user_description : props.transaction.bank_description}</span>
+            <span className={"transaction-details__amount " + (props.transaction.amount > 0 ? "transaction-details__amount--positive" : "transaction-details__amount--negative")}>
+                {formatAmount(Math.abs(props.transaction.amount))}
+            </span>
+        </div>
     );
 }
 
@@ -80,8 +131,6 @@ function StatusBar(props: { budget_state: BudgetState }) {
     const spent_percentage = props.budget_state.amount_spent / amount_total * 100;
     const contributed_percentage = props.budget_state.amount_contributed / amount_total * 100;
     const threshold_percentage = props.budget_state.amount_current / amount_total * 100;
-
-    console.log(spent_percentage, contributed_percentage, threshold_percentage);
 
     const overspent_percentage = Math.max(spent_percentage - threshold_percentage, 0);
     const overcontributed_percentage = Math.max(contributed_percentage - threshold_percentage, 0);
@@ -124,8 +173,4 @@ function StatusBarSegment(props: { modifier: string, width_percentage: number })
     return (
         <div className={"budget__bar-segment budget__bar-segment--" + props.modifier} style={{width: props.width_percentage + "%" }}></div>
     )
-}
-
-function formatAmount(amount: number) {
-    return "$" + (amount / 100).toFixed(2);
 }

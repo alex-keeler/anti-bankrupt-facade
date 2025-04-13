@@ -1,3 +1,20 @@
+import {useNavigate} from "react-router-dom";
+import {useEffect} from "react";
+
 export default function Home() {
-    return (<h1>Hello, world!</h1>)
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+
+        const loggedIn = localStorage.getItem("Auth-Token") !== null;
+
+        if (loggedIn) {
+            navigate("/secure/user/dashboard");
+        } else {
+            navigate("/login");
+        }
+    });
+
+    return (<div style={{display: "none"}}>Home</div>);
 }

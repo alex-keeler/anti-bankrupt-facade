@@ -1,4 +1,4 @@
-import {Routes, Route, BrowserRouter} from "react-router-dom";
+import {Routes, Route, HashRouter} from "react-router-dom";
 import Home from "./pages/Home.tsx";
 import SecureLayout from "./layouts/SecureLayout.tsx";
 import UserDashboard from "./pages/UserDashboard.tsx";
@@ -22,7 +22,7 @@ function App() {
     return (
         <>
             <DateContext.Provider value={date}>
-                <BrowserRouter>
+                <HashRouter>
                     <Routes>
                         <Route path={"/"} element={<Home/>}/>
                         <Route path={"/secure"} element={<SecureLayout setDate={setDate}/>}>
@@ -37,7 +37,7 @@ function App() {
                             <Route path={"/logout"} element={<Logout/>}/>
                         </Route>
                     </Routes>
-                </BrowserRouter>
+                </HashRouter>
             </DateContext.Provider>
         </>
     );

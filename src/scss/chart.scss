@@ -1,0 +1,12 @@
+.chart {
+  &__container {
+    width: 25%;
+    padding: 10px;
+    text-align: center;
+  }
+
+  &__title {
+    font-size: 14pt;
+    padding-bottom: 20px;
+  }
+}

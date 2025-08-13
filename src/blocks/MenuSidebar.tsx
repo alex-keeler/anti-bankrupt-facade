@@ -10,11 +10,6 @@ export default function MenuSidebar(props: { links: { icon: IconDefinition, name
                 {props.links.map(link => {
                     return (<MenuLink key={link.href} link={link}/>)
                 })}
-                {/*<MenuLink icon={faGaugeHigh} name={"Dashboard"} href={"/secure/dashboard"}/>*/}
-                {/*<MenuLink icon={faUpload} name={"Upload Bank Records"} href={"/secure/upload/bank-record"}/>*/}
-                {/*<MenuLink icon={faMoneyBills} name={"Cash Flow Dashboard"} href={"/secure/cash-flow/dashboard"}/>*/}
-                {/*<MenuLink icon={faWallet} name={"Transactions"} href={"/secure/transaction/dashboard"}/>*/}
-                {/*<MenuLink icon={faPiggyBank} name={"Budgets"} href={"/secure/budget/dashboard"}/>*/}
             </div>
         </div>
     )

@@ -7,14 +7,8 @@ export default function MenuFooter(props: { links: { icon: IconDefinition, href:
         <div className={"footer"}>
             <div className={"footer__list"}>
                 {props.links.map(link => {
-                    return (<MenuLink link={link}/>)
+                    return (<MenuLink key={link.href} link={link}/>)
                 })}
-
-                {/*<MenuLink icon={faGaugeHigh} href={"/secure/dashboard"}/>*/}
-                {/*<MenuLink icon={faUpload} href={"/secure/upload/bank-record"}/>*/}
-                {/*<MenuLink icon={faMoneyBills} href={"/secure/cash-flow/dashboard"}/>*/}
-                {/*<MenuLink icon={faWallet} href={"/secure/transaction/dashboard"}/>*/}
-                {/*<MenuLink icon={faPiggyBank} href={"/secure/budget/dashboard"}/>*/}
             </div>
         </div>
     )

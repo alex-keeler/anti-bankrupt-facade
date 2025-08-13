@@ -1,25 +1,25 @@
 .login-form {
 
-  width: 80%;
+  width: 90%;
   max-width: 450px;
   background-color: #eee;
   border: 1px solid #ccc;
   border-radius: 10px;
-  padding: 50px;
-  margin: auto;
+  padding: 50px 20px;
+  margin: 50px auto;
   text-align: center;
 
   &__header {
     margin-bottom: 20px;
     font-weight: 700;
-    font-size: 16pt;
+    font-size: 18pt;
   }
 
   &__field {
-    padding: 10px 0px;
+    padding: 10px 0;
 
     &--submit {
-      padding: 20px 0px 0px 0px;
+      padding: 20px 0 0 0;
     }
   }
 
@@ -28,5 +28,6 @@
     border: 1px solid #ccc;
     padding: 5px;
     width: 100%;
+    font-size: 16px;
   }
 }

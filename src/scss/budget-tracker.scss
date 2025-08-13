@@ -1,6 +1,6 @@
 .budget {
   padding: 10px 20px;
-  margin: 20px;
+  margin: 20px 0;
 
   &__list {
     max-width: 800px;
@@ -44,6 +44,7 @@
     font-size: 0.7em;
     line-height: 1.4em;
     text-align: right;
+    white-space: nowrap;
   }
 
   &__bar {
@@ -97,6 +98,7 @@
   overflow: hidden;
   background-color: #f6f6f6;
   user-select: none;
+  margin-bottom: 10px;
 
   &__container {
     display: flex;

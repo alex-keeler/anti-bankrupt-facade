@@ -12,10 +12,7 @@ export default function LoginLayout() {
     return (
         <>
             { bannerMessage && <Banner message={bannerMessage}/> }
-            {/*TODO: anything but this*/}
-            <div style={{padding: 50}}>
-                <Outlet context={{ setBannerMessage }}/>
-            </div>
+            <Outlet context={{ setBannerMessage }}/>
         </>
     );
 }

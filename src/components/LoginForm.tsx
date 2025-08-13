@@ -1,4 +1,5 @@
 import '../scss/login-form.scss';
+import '../scss/button.scss';
 import {FormEvent, useRef} from "react";
 import {useNavigate} from "react-router-dom";
 import {useSetBannerMessage} from "../layouts/LoginLayout.tsx";
@@ -46,7 +47,7 @@ export default function LoginForm() {
             .then(jwt => {
                 console.log('success: ', jwt);
                 localStorage.setItem("Auth-Token", jwt);
-                navigate("/secure/user/dashboard");
+                navigate("/secure/budget/dashboard");
             })
             .catch(error => {
                 setBannerMessage({

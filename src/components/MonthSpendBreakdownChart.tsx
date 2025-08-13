@@ -42,7 +42,6 @@ export default function MonthSpendBreakdownChart() {
         console.error(error);
         return (<div>An error has occurred.</div>);
     }
-
     type DataPoint = {
         label: string,
         amount: number,
@@ -112,36 +111,39 @@ export default function MonthSpendBreakdownChart() {
     return (
         <div className={"chart__container"}>
             <div className={"chart__title"}>Spending Breakdown</div>
-            <Doughnut data={chartData} options={{
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    datalabels: {
-                        formatter: (value, context) => {
-                            const percentage = value / context.chart._metasets[context.datasetIndex].total * 100;
-
-                            if (percentage < 3) {
-                                return "";
-                            }
-
-                            return percentage.toFixed(0) + '%';
+            {data.budget_classifications.length > 0 ?
+                (<Doughnut data={chartData} options={{
+                    plugins: {
+                        legend: {
+                            display: false
                         },
-                        font: {
-                            size: 14,
-                        }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: (tooltipItem)=> {
-                                const label = tooltipItem.dataset.labels[tooltipItem.dataIndex];
-                                const amount = formatAmount(tooltipItem.dataset.data[tooltipItem.dataIndex]);
-                                return label + ": " + amount;
+                        datalabels: {
+                            formatter: (value, context) => {
+                                const percentage = value / context.chart._metasets[context.datasetIndex].total * 100;
+
+                                if (percentage < 3) {
+                                    return "";
+                                }
+
+                                return percentage.toFixed(0) + '%';
+                            },
+                            font: {
+                                size: 14,
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: (tooltipItem)=> {
+                                    const label = tooltipItem.dataset.labels[tooltipItem.dataIndex];
+                                    const amount = formatAmount(tooltipItem.dataset.data[tooltipItem.dataIndex]);
+                                    return label + ": " + amount;
+                                }
                             }
                         }
                     }
-                }
-            }} />
+                }} />) :
+                (<div style={{fontStyle: "italic"}}>No spending found this month.</div>)}
+
         </div>
     );
 }

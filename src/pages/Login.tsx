@@ -10,7 +10,7 @@ export default function Login() {
         const loggedIn = localStorage.getItem("Auth-Token") !== null;
 
         if (loggedIn) {
-            navigate("/secure/user/dashboard");
+            navigate("/secure/budget/dashboard");
         }
     });
 

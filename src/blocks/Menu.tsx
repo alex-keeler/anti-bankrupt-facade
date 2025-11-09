@@ -9,19 +9,19 @@ export default function Menu() {
         {
             icon: faPiggyBank,
             name: "Budgets",
-            href: "/#/secure/budget/dashboard"
+            href: "/secure/budget/dashboard"
         },{
             icon: faWallet,
             name: "Transactions",
-            href: "/#/secure/transaction/dashboard"
+            href: "/secure/transaction/dashboard"
         },{
             icon: faMoneyBills,
             name: "Cash Flow Dashboard",
-            href: "/#/secure/cash-flow/dashboard"
+            href: "/secure/cash-flow/dashboard"
         },{
             icon: faUpload,
             name: "Upload Bank Records",
-            href: "/#/secure/bank-record/upload"
+            href: "/secure/bank-record/upload"
         },
     ];
 

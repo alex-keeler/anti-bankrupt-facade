@@ -6,3 +6,7 @@ Run `npm install`
 
 # Run locally
 Run `npm run dev`
+
+# Deploy
+Run `npm run build` in repository directory
+Move `dist/` to `server:~/<frontend install directory>/`

@@ -45,7 +45,6 @@ export default function LoginForm() {
                 return response.text();
             })
             .then(jwt => {
-                console.log('success: ', jwt);
                 localStorage.setItem("Auth-Token", jwt);
                 navigate("/secure/budget/dashboard");
             })
